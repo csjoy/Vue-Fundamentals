@@ -11,8 +11,7 @@ const link = {
   tabindex: 1,
   target: "_black",
 }
-let name: string = ""
-let language: string = ""
+
 const interests = ["TV", "Games", "Sports"]
 const items = [
   {
@@ -164,6 +163,16 @@ const triggerAlert = (index: number) => {
       </li>
     </ul>
   </div>
+
+  <div class="container">
+    <h1 class="text-2xl font-semibold">Vue Lifecycle hooks</h1>
+    <ul>
+      <li v-for="(item, index) in list" :key="index">
+        {{ item }}
+        <button class="px-5 py-2.5 bg-gray-200 rounded-lg" @click="deleteItem(item)">Delete</button>
+      </li>
+    </ul>
+  </div>
 </template>
 
 <script lang="ts">
@@ -171,8 +180,45 @@ export default {
   data() {
     return {
       totalCost: 0,
-      totalItems: 0
+      totalItems: 0,
+      name: "",
+      language: "",
+      list: [
+        "Apex Legends",
+        "A Plague Tale: Innocence",
+        "ART SQOOL",
+        "Baba Is You",
+        "Devil May Cry 5",
+        "The Division 2",
+        "Hypnospace Outlaw",
+        "Katana ZERO",
+        "testing unmounted hooks"
+      ]
     }
+  },
+  beforeCreate() {
+    alert("beforeCreate: data is static, that's it")
+  },
+  created() {
+    alert("created: data and events ready, but no DOM")
+  },
+  beforeMount() {
+    alert("beforeMount: element not ready")
+  },
+  mounted() {
+    alert("mounted: DOM ready to use")
+  },
+  beforeUpdate() {
+    alert("beforeUpdate: we know an update is about to happen, and have the data")
+  },
+  updated() {
+    alert("updated: virtual DOM will update after you click OK")
+  },
+  beforeUnmount() {
+    alert("beforeUnmount: about to blow up this components")
+  },
+  unmounted() {
+    alert("unmounted: this component has been destroyed")
   },
   methods: {
     addToCart(n: number) {
@@ -181,6 +227,9 @@ export default {
     },
     formatCurrency(val: number) {
       return `$${val.toFixed(2)}`
+    },
+    deleteItem(value: string) {
+      this.list = this.list.filter(item => item !== value)
     }
   },
 }
